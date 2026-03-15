@@ -67,26 +67,29 @@ async function loadFolderData() {
     }
 
     const manifest = await manifestResponse.json();
-    const scheduleFiles = Array.isArray(manifest.schedule_files) ? manifest.schedule_files : [];
-    const milestoneFile = manifest.milestone_file;
-    const boardFile = manifest.board_file;
+    const scheduleFiles = normalizeFileList(manifest.schedule_files);
+    const milestoneFiles = normalizeFileList(manifest.milestone_file);
+    const boardFiles = normalizeFileList(manifest.board_file);
 
     if (!scheduleFiles.length) {
       throw new Error("В data/files.json не перечислены файлы графика.");
     }
 
-    if (!milestoneFile) {
+    if (!milestoneFiles.length) {
       throw new Error("В data/files.json не указан файл вех.");
     }
 
-    if (!boardFile) {
+    if (!boardFiles.length) {
       throw new Error("В data/files.json не указан файл колл. органов.");
     }
 
     const loadedTasks = await Promise.all(scheduleFiles.map(loadTaskFile));
     allTasks = mergeTasks(loadedTasks.flatMap((group) => group.rows));
-    allMilestones = await loadMilestoneFile(milestoneFile);
-    allBoards = await loadBoardFile(boardFile);
+    const loadedMilestones = await Promise.all(milestoneFiles.map(loadMilestoneFile));
+    allMilestones = loadedMilestones.flat();
+
+    const loadedBoards = await Promise.all(boardFiles.map(loadBoardFile));
+    allBoards = loadedBoards.flat();
 
     if (!allTasks.length) {
       throw new Error("В папке data нет строк графика для отображения.");
@@ -95,10 +98,22 @@ async function loadFolderData() {
     initializeDateFilter(allTasks, allMilestones);
     renderProjectFilter(allTasks);
     updateDashboard();
-    dom.statusText.textContent = `Загружено ${scheduleFiles.length} файлов графика, файл вех ${milestoneFile} и файл колл. органов ${boardFile}.`;
+    dom.statusText.textContent = `Загружено ${scheduleFiles.length} файлов графика, ${milestoneFiles.length} файлов вех и ${boardFiles.length} файлов колл. органов.`;
   } catch (error) {
     renderError(error.message);
   }
+}
+
+function normalizeFileList(value) {
+  if (Array.isArray(value)) {
+    return value.filter(Boolean);
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    return [value.trim()];
+  }
+
+  return [];
 }
 
 async function loadTaskFile(fileName) {
