@@ -7,7 +7,7 @@
 Запустите локальный HTTP-сервер в папке проекта:
 
 ```bash
-cd /Users/zhivvv/PythonProjects/roadmap
+cd /path/to/roadmap
 python3 -m http.server 8000
 ```
 
@@ -15,9 +15,9 @@ python3 -m http.server 8000
 
 ## Формат данных
 
-Приложение автоматически читает все `csv` и `xlsx`, перечисленные в `/Users/zhivvv/PythonProjects/roadmap/data/files.json`.
+Приложение автоматически читает все `csv` и `xlsx`, перечисленные в `data/files.json`.
 
-В `files.json` теперь используются поля:
+В `files.json` используются поля:
 
 - `schedule_files` - массив файлов с работами проектов
 - `milestone_file` - отдельный файл с вехами
@@ -45,10 +45,24 @@ python3 -m http.server 8000
 
 Примеры лежат в:
 
-- `/Users/zhivvv/PythonProjects/roadmap/data/example-roadmap.csv`
-- `/Users/zhivvv/PythonProjects/roadmap/data/team-ops.csv`
-- `/Users/zhivvv/PythonProjects/roadmap/data/project-milestones.csv`
-- `/Users/zhivvv/PythonProjects/roadmap/data/project-boards.csv`
+- `data/example-roadmap.csv`
+- `data/team-ops.csv`
+- `data/project-milestones.csv`
+- `data/project-boards.csv`
+
+## Деплой на GitHub Pages
+
+В репозитории добавлен workflow `.github/workflows/deploy-pages.yml`, который публикует сайт на GitHub Pages при пуше в ветку `main`.
+
+Что нужно сделать один раз в GitHub:
+
+1. Откройте `Settings` → `Pages`.
+2. В `Source` выберите `GitHub Actions`.
+3. Запушьте изменения в `main`.
+
+После выполнения workflow сайт будет доступен по адресу вида:
+
+`https://<username>.github.io/<repository>/`
 
 ## Что умеет
 
