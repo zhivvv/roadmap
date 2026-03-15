@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>График реализации проектов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script
+      defer
+      src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+    ></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <h1>График реализации проектов</h1>
+        <p class="helper-text hero__status" id="status-text">Загрузка данных...</p>
+      </header>
+
+      <main class="dashboard">
+        <aside class="sidebar-stack">
+          <section class="panel toolbar">
+            <div class="toolbar__top">
+              <div>
+                <p class="panel__eyebrow">Фильтры</p>
+                <h2>Выбор проектов</h2>
+              </div>
+            </div>
+            <div class="project-filter" id="project-filter"></div>
+          </section>
+
+          <section class="panel date-filter">
+            <div class="date-filter__head">
+              <p class="panel__eyebrow">Календарь</p>
+              <h2>Период</h2>
+            </div>
+            <div class="date-filter__row">
+              <label class="date-filter__field">
+                <span>Месяц начала</span>
+                <input type="month" id="date-start" />
+              </label>
+              <label class="date-filter__field">
+                <span>Месяц окончания</span>
+                <input type="month" id="date-end" />
+              </label>
+            </div>
+          </section>
+        </aside>
+
+        <section class="viewer-stack">
+          <section class="panel panel--summary">
+            <div class="summary summary--inline" id="summary"></div>
+          </section>
+
+          <section class="panel panel--viewer">
+            <div class="panel__header">
+              <div>
+                <p class="panel__eyebrow">График</p>
+                <h2>Календарный график</h2>
+              </div>
+              <div class="layer-filter" id="layer-filter"></div>
+            </div>
+
+            <div class="legend legend--schedule" id="legend"></div>
+
+            <div class="roadmap" id="roadmap">
+              <div class="empty-state">
+                <h3>Пока нет данных</h3>
+                <p>После чтения файлов здесь появится график работ и вех по проектам.</p>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

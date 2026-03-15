@@ -1,0 +1,5 @@
+{
+  "schedule_files": ["example-roadmap.csv", "team-ops.csv", "example-roadmap.xlsx"],
+  "milestone_file": "project-milestones.csv",
+  "board_file": "project-boards.csv"
+}
